@@ -81,7 +81,8 @@ public class EzNode implements Node {
     private List<EventListener> listeners = Collections.emptyList();
     private Object id = null;
     private Set<Object> tags = Collections.emptySet();
-    private Consumer<MetaNode> reference = n -> {};
+    private Consumer<MetaNode> reference = n -> {
+    };
     private Nodes children = Nodes.empty();
     private Layouter layout = null;
     private Transformer transformer = null;

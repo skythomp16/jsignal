@@ -23,7 +23,11 @@ public class Signal<T> implements SignalLike<T> {
 
   protected final Map<Integer, EffectRef> effects;
 
+  public final StackTraceElement[] declared;
+
   public Signal(Builder<T> builder) {
+    this.declared = Thread.currentThread().getStackTrace();
+
     this.value = builder.value;
     this.threadBound = new ThreadBound(builder.isSync);
     this.equals = builder.equals;
@@ -99,7 +103,7 @@ public class Signal<T> implements SignalLike<T> {
         if (effect.isEmpty() || effect.get().isDisposed())
           itr.remove();
         else
-          batch.add(ref);
+          batch.add(ref, this);
       }
     }));
   }

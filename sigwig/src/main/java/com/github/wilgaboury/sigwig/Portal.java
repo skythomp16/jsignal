@@ -49,8 +49,12 @@ public class Portal {
     @Override
     public Nodes render() {
       var suppliers = getSuppliers(id);
-      suppliers.mutate(list -> {list.add(child);});
-      Cleanups.onCleanup(() -> suppliers.mutate(list -> {list.remove(child);}));
+      suppliers.mutate(list -> {
+        list.add(child);
+      });
+      Cleanups.onCleanup(() -> suppliers.mutate(list -> {
+        list.remove(child);
+      }));
       return Nodes.empty();
     }
   }

@@ -4,7 +4,7 @@ import static com.github.wilgaboury.jsignal.JSignalUtil.untrack;
 
 public interface Renderable extends NodesSupplier {
   default Nodes getNodes() {
-    return RenderInstrumentation.context.use().instrument(this, () -> untrack(this::render));
+    return untrack(() -> RenderInstrumentation.context.use().instrument(this, this::render));
   }
 
   /**

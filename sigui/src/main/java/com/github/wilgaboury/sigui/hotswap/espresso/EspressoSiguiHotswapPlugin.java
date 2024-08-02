@@ -13,8 +13,8 @@ public class EspressoSiguiHotswapPlugin implements HotSwapPlugin {
 
   @Override
   public void postHotSwap(Class<?>[] changedClasses) {
-    HotswapRerenderService.rerender(Arrays.stream(changedClasses)
+    new Thread(() -> HotswapRerenderService.rerender(Arrays.stream(changedClasses)
       .map(Class::getName)
-      .toList());
+      .toList())).start();
   }
 }

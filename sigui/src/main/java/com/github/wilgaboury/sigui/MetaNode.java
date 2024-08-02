@@ -37,6 +37,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.github.wilgaboury.jsignal.JSignalUtil.createMemo;
 import static com.github.wilgaboury.jsignal.JSignalUtil.onDefer;
 import static com.github.wilgaboury.sigui.layout.LayoutValue.percent;
 
@@ -81,7 +82,7 @@ public class MetaNode {
     this.afterPainter = node.getAfterPainter();
     this.transformer = node.getTransformer() != null ? node.getTransformer() : n -> Matrix33.IDENTITY;
     this.layouter = node.getLayouter();
-    var nodeChildren = node.getChildren();
+    var nodeChildren = createMemo(node::getChildren);
 
     this.yoga = Yoga.YGNodeNew();
     this.layout = new Layout(yoga);
@@ -140,7 +141,8 @@ public class MetaNode {
 
   public void setPaintCacheStrategy(PaintCacheStrategy paintCacheStrategy) {
     this.paintCacheStrategy = paintCacheStrategy;
-    paintCacheEffect.run(() -> {}); // clear side effect dependencies
+    paintCacheEffect.run(() -> {
+    }); // clear side effect dependencies
     paintEffectInner();
   }
 
@@ -199,20 +201,19 @@ public class MetaNode {
     }
   }
 
-  private Supplier<List<MetaNode>> createChildren(Nodes children) {
-    return switch (children) {
-      case Nodes.Fixed fixed -> {
-        var nodes = fixed.getNodeList();
-        List<MetaNode> result = new ArrayList<>(nodes.size());
-        for (int i = 0; i < nodes.size(); i++) {
-          var node = nodes.get(i);
-          var meta = parentContext.with(this).provide(node::toMeta);
-          Yoga.YGNodeInsertChild(yoga, meta.yoga, i);
-          result.add(meta);
-        }
-        yield Constant.of(result);
+  private Supplier<List<MetaNode>> createChildren(Supplier<List<Node>> children) {
+    if (children instanceof Constant<List<Node>>) {
+      var nodes = children.get();
+      List<MetaNode> result = new ArrayList<>(nodes.size());
+      for (int i = 0; i < nodes.size(); i++) {
+        var node = nodes.get(i);
+        var meta = parentContext.with(this).provide(node::toMeta);
+        Yoga.YGNodeInsertChild(yoga, meta.yoga, i);
+        result.add(meta);
       }
-      case Nodes.Dynamic dynamic -> JSignalUtil.createMapped(dynamic::getNodeList, (node, idx) -> {
+      return Constant.of(result);
+    } else {
+      return JSignalUtil.createMapped(children, (node, idx) -> {
         var meta = parentContext.with(this).provide(node::toMeta);
 
         Yoga.YGNodeInsertChild(yoga, meta.yoga, idx.get());
@@ -225,7 +226,7 @@ public class MetaNode {
 
         return meta;
       });
-    };
+    }
   }
 
   private static Point createTestPoint(Point p, Matrix33 transform) {

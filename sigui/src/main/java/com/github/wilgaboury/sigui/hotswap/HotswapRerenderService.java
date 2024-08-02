@@ -38,7 +38,10 @@ public class HotswapRerenderService {
         rerenderComponents.add(highest);
       }
 
+      System.out.println("BRUH");
+
       for (HotswapComponent component : rerenderComponents) {
+        System.out.println("HELLLLOOOO!");
         component.getRerender().trigger();
       }
 

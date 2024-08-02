@@ -11,7 +11,8 @@ import com.github.wilgaboury.sigui.SiguiComponent;
 import java.util.*;
 
 public class OrderedPortal {
-  public static final class Key<T> {}
+  public static final class Key<T> {
+  }
 
   private static final Context<HashMap<Key<?>, Signal<TreeMap<?, List<NodesSupplier>>>>> context =
     Context.create(new HashMap<>());
@@ -60,7 +61,9 @@ public class OrderedPortal {
           .computeIfAbsent(level, ignored -> new ArrayList<>())
           .add(child);
       });
-      Cleanups.onCleanup(() -> suppliers.mutate(map -> {map.get(level).remove(child);}));
+      Cleanups.onCleanup(() -> suppliers.mutate(map -> {
+        map.get(level).remove(child);
+      }));
       return Nodes.empty();
     }
   }
