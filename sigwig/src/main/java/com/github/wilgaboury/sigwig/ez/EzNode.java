@@ -119,7 +119,7 @@ public class EzNode implements Node {
       return this;
     }
 
-    public Builder children(NodesSupplier... nodes) {
+    public Builder children(Widget... nodes) {
       children = Nodes.compose(Arrays.asList(nodes));
       return this;
     }

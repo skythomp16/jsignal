@@ -22,7 +22,7 @@ public class Button implements Renderable {
   private final Supplier<Integer> color;
   private final Supplier<Size> size;
   private final Supplier<Runnable> action;
-  private final Supplier<NodesSupplier> children;
+  private final Supplier<Widget> children;
 
   private final Signal<Boolean> mouseOver = Signal.create(false);
   private final Signal<Boolean> mouseDown = Signal.create(false);
@@ -145,7 +145,7 @@ public class Button implements Renderable {
     private Supplier<Size> size = () -> Size.MD;
     private Supplier<Runnable> action = () -> () -> {
     };
-    private Supplier<NodesSupplier> children = Nodes::empty;
+    private Supplier<Widget> children = Nodes::empty;
 
     public Builder ref(Consumer<MetaNode> ref) {
       this.ref = ref;
@@ -191,11 +191,11 @@ public class Button implements Renderable {
       return this;
     }
 
-    public Supplier<NodesSupplier> getChildren() {
+    public Supplier<Widget> getChildren() {
       return children;
     }
 
-    public Builder setChildren(Supplier<NodesSupplier> children) {
+    public Builder setChildren(Supplier<Widget> children) {
       this.children = children;
       return this;
     }

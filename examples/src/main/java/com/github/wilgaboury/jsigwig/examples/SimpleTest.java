@@ -1,14 +1,11 @@
 package com.github.wilgaboury.jsigwig.examples;
 
-import com.github.wilgaboury.jsignal.JSignalUtil;
 import com.github.wilgaboury.jsignal.Signal;
-import com.github.wilgaboury.sigui.Nodes;
 import com.github.wilgaboury.sigui.Renderable;
 import com.github.wilgaboury.sigui.SiguiComponent;
 import com.github.wilgaboury.sigui.SiguiThread;
 import com.github.wilgaboury.sigui.SiguiUtil;
 import com.github.wilgaboury.sigui.SiguiWindow;
-import com.github.wilgaboury.sigui.hotswap.HotswapComponent;
 import com.github.wilgaboury.sigwig.BasicPainter;
 import com.github.wilgaboury.sigwig.Blob;
 import com.github.wilgaboury.sigwig.BlobException;

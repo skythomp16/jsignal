@@ -6,7 +6,6 @@ import com.github.wilgaboury.jsignal.Constant;
 import com.github.wilgaboury.jsignal.Context;
 import com.github.wilgaboury.jsignal.Effect;
 import com.github.wilgaboury.jsignal.Provider;
-import com.github.wilgaboury.sigui.Nodes;
 import com.github.wilgaboury.sigui.Renderable;
 import com.github.wilgaboury.sigui.SiguiComponent;
 import com.github.wilgaboury.sigui.SiguiThread;

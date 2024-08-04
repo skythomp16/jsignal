@@ -3,8 +3,7 @@ package com.github.wilgaboury.sigwig;
 import com.github.wilgaboury.jsignal.Cleanups;
 import com.github.wilgaboury.jsignal.Context;
 import com.github.wilgaboury.jsignal.Signal;
-import com.github.wilgaboury.sigui.Nodes;
-import com.github.wilgaboury.sigui.NodesSupplier;
+import com.github.wilgaboury.sigui.Widget;
 import com.github.wilgaboury.sigui.Renderable;
 import com.github.wilgaboury.sigui.SiguiComponent;
 
@@ -14,12 +13,12 @@ public class OrderedPortal {
   public static final class Key<T> {
   }
 
-  private static final Context<HashMap<Key<?>, Signal<TreeMap<?, List<NodesSupplier>>>>> context =
+  private static final Context<HashMap<Key<?>, Signal<TreeMap<?, List<Widget>>>>> context =
     Context.create(new HashMap<>());
 
-  private static <T extends Comparable<T>> Signal<TreeMap<?, List<NodesSupplier>>> getSuppliersMap(Key<T> id) {
+  private static <T extends Comparable<T>> Signal<TreeMap<?, List<Widget>>> getSuppliersMap(Key<T> id) {
     return context.use().computeIfAbsent(id, ignored ->
-      Signal.create(new TreeMap<T, List<NodesSupplier>>()));
+      Signal.create(new TreeMap<T, List<Widget>>()));
   }
 
   @SiguiComponent
@@ -45,9 +44,9 @@ public class OrderedPortal {
   public static class In<T extends Comparable<T>> implements Renderable {
     public final Key<T> id;
     public final T level;
-    public final NodesSupplier child;
+    public final Widget child;
 
-    public In(Key<T> id, T level, NodesSupplier child) {
+    public In(Key<T> id, T level, Widget child) {
       this.id = id;
       this.level = level;
       this.child = child;
@@ -57,7 +56,7 @@ public class OrderedPortal {
     public Nodes render() {
       var suppliers = getSuppliersMap(id);
       suppliers.mutate(map -> {
-        ((TreeMap<T, List<NodesSupplier>>) map)
+        ((TreeMap<T, List<Widget>>) map)
           .computeIfAbsent(level, ignored -> new ArrayList<>())
           .add(child);
       });

@@ -3,8 +3,7 @@ package com.github.wilgaboury.sigwig;
 import com.github.wilgaboury.jsignal.Cleanups;
 import com.github.wilgaboury.jsignal.Context;
 import com.github.wilgaboury.jsignal.Signal;
-import com.github.wilgaboury.sigui.Nodes;
-import com.github.wilgaboury.sigui.NodesSupplier;
+import com.github.wilgaboury.sigui.Widget;
 import com.github.wilgaboury.sigui.Renderable;
 import com.github.wilgaboury.sigui.SiguiComponent;
 
@@ -13,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Portal {
-  private static final Context<HashMap<Object, Signal<List<NodesSupplier>>>> context =
+  private static final Context<HashMap<Object, Signal<List<Widget>>>> context =
     Context.create(new HashMap<>());
 
-  private static Signal<List<NodesSupplier>> getSuppliers(Object id) {
+  private static Signal<List<Widget>> getSuppliers(Object id) {
     return context.use().computeIfAbsent(id, ignored -> Signal.create(new ArrayList<>()));
   }
 
@@ -39,9 +38,9 @@ public class Portal {
   @SiguiComponent
   public static class In implements Renderable {
     public final Object id;
-    public final NodesSupplier child;
+    public final Widget child;
 
-    public In(Object id, NodesSupplier child) {
+    public In(Object id, Widget child) {
       this.id = id;
       this.child = child;
     }
