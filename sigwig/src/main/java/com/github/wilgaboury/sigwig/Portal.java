@@ -4,7 +4,6 @@ import com.github.wilgaboury.jsignal.Cleanups;
 import com.github.wilgaboury.jsignal.Context;
 import com.github.wilgaboury.jsignal.Signal;
 import com.github.wilgaboury.sigui.Nodes;
-import com.github.wilgaboury.sigui.NodesSupplier;
 import com.github.wilgaboury.sigui.Renderable;
 import com.github.wilgaboury.sigui.SiguiComponent;
 

@@ -2,8 +2,8 @@ package com.github.wilgaboury.sigui;
 
 import static com.github.wilgaboury.jsignal.JSignalUtil.untrack;
 
-public interface Renderable extends NodesSupplier {
-  default Nodes getNodes() {
+public interface Renderable extends Nodes {
+  default Nodes get() {
     return RenderInstrumentation.context.use().instrument(this, () -> untrack(this::render));
   }
 
